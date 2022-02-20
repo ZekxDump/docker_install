@@ -275,10 +275,10 @@ startInstall()
         # pull an nginx proxy manager docker-compose file from github
         echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
-        mkdir nginx-proxy-manager
-        cd nginx-proxy-manager
+        mkdir -p docker/nginx-proxy-manager
+        cd docker/nginx-proxy-manager
 
-        curl https://raw.githubusercontent.com/bmcgonag/docker_installs/master/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -353,10 +353,10 @@ startInstall()
         echo ""
         echo "    1. Preparing to install Navidrome"
 
-        mkdir navidrome
-        cd navidrome
+        mkdir -p docker/navidrome
+        cd docker/navidrome
 
-        curl https://raw.githubusercontent.com/bmcgonag/docker_installs/master/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start Navidrome"
         echo ""
@@ -386,10 +386,10 @@ startInstall()
         echo ""
         echo "    1. Preparing to install Speedtest"
 
-        mkdir docker-speedtest-grafana
-        cd docker-speedtest-grafana
+        mkdir -p docker/docker-speedtest-grafana
+        cd docker/docker-speedtest-grafana
 
-        curl https://raw.githubusercontent.com/bmcgonag/docker_installs/master/docker-compose_speedtest_grafana.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker-compose_speedtest_grafana.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start Speedtest"
         echo ""
