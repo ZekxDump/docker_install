@@ -424,18 +424,19 @@ echo "Let's figure out which OS / Distro you are running."
 echo ""
 echo ""
 echo "    From some basic information on your system, you appear to be running: "
-echo "        " $(lsb_release -i)
-echo "        " $(lsb_release -d)
-echo "        " $(lsb_release -r)
-echo "        " $(lsb_release -c)
+echo "        --  OpSys        " $(lsb_release -i)
+echo "        --  Desc:        " $(lsb_release -d)
+echo "        --  OSVer        " $(lsb_release -r)
+echo "        --  CdNme        " $(lsb_release -c)
 echo ""
+echo "------------------------------------------------"
 echo ""
 PS3="Please select the number for your OS / distro: "
 select _ in \
     "CentOS 7 and 8" \
     "Debian 10/11 (Buster / Bullseye)" \
     "Ubuntu 18.04 (Bionic)" \
-    "Ubuntu 20.04 / 21.04 (Focal)/(Hirsute)" \
+    "Ubuntu 20.04 / 21.04 (Focal / Hirsute)" \
     "Arch Linux" \
     "End this Installer"
 do
