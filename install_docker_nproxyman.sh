@@ -197,10 +197,6 @@ startInstall()
 
         sleep 2s
         sudo usermod -aG docker "${USER}" >> ~/docker-script-install.log 2>&1
-        sleep 2s
-        newgrp
-        sleep 2s
-        newgrp docker
         echo "  - You'll need to log out and back in to finalize the addition of your user to the docker group."
         echo ""
         echo ""
