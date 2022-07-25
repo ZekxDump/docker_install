@@ -33,7 +33,6 @@ installApps()
 
     read -rp "NGinX Proxy Manager (y/n): " NPM
     read -rp "Navidrome (y/n): " NAVID
-    read -rp "Speedtest - recurring internet speedtest (y/n): " SPDTST
     read -rp "Portainer-CE (y/n): " PTAIN
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -72,7 +71,7 @@ startInstall()
     #######################################################
 
     if [[ "$OS" != "1" ]]; then
-        echo "    1. Installing System Updates... this may take a while...be patient."
+        echo "    1. Installing System Updates... this may take a while...be patient. If it is being done on a Digial Ocean VPS, you should run updates before running this script."
         (sudo apt update && sudo apt upgrade -y) > ~/docker-script-install.log 2>&1 &
         ## Show a spinner for activity progress
         pid=$! # Process Id of the previous running command
@@ -85,46 +84,27 @@ startInstall()
             sleep .1
         done
         printf "\r"
-        # echo "    2. Install Prerequisite Packages..."
-        # sleep 2s
 
-        # sudo apt install apt-transport-https ca-certificates curl software-properties-common -y >> ~/docker-script-install.log 2>&1
+        echo "    2. Install Prerequisite Packages..."
+        sleep 2s
 
-        # if [[ "$DOCK" == [yY] ]]; then
-        #     echo "    3. Retrieving Signing Keys for Docker... and adding the Docker-CE repository..."
-        #     sleep 2s
+        sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
 
-        #     #### add the Debian 10 Buster key
-        #     if [[ "$OS" == 2 ]]; then
-        #         curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - >> ~/docker-script-install.log 2>&1
-        #         sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" -y >> ~/docker-script-install.log 2>&1
-        #     fi
+        echo "    3. Installing Docker-CE (Community Edition)..."
+        sleep 2s
 
-        #     if [[ "$OS" == 3 ]] || [[ "$OS" == 4 ]]; then
-        #         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - >> ~/docker-script-install.log 2>&1
+        curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
 
-        #         sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y >> ~/docker-script-install.log 2>&1
-        #     fi
+        echo "      - docker-ce version is now:"
+        DOCKERV=$(docker -v)
+        echo "          "${DOCKERV}
+        sleep 3s
 
-        #     sudo apt update >> ~/docker-script-install.log 2>&1
-        #     sudo apt-cache policy docker-ce >> ~/docker-script-install.log 2>&1
+        if [[ "$OS" == 2 ]]; then
+            echo "    5. Starting Docker Service"
+            sudo systemctl docker start >> ~/docker-script-install.log 2>&1
+        fi
 
-            echo "    2. Installing Docker-CE (Community Edition)..."
-            sleep 2s
-
-            #sudo apt install docker-ce -y >> ~/docker-script-install.log 2>&1
-
-            curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
-
-                echo "- docker-ce version is now:"
-            docker -v
-            sleep 5s
-
-            if [[ "$OS" == 2 ]]; then
-                echo "    5. Starting Docker Service"
-                sudo systemctl docker start >> ~/docker-script-install.log 2>&1
-            fi
-        # fi
     fi
         
     
@@ -136,22 +116,30 @@ startInstall()
             echo "    1. Updating System Packages..."
             sudo yum check-update >> ~/docker-script-install.log 2>&1
 
-            echo "    2. Installing Docker-CE (Community Edition)..."
+            echo "    2. Installing Prerequisite Packages..."
+            sudo dnf install git curl wget -y >> ~/docker-script-install.log 2>&1
+
+            echo "    3. Installing Docker-CE (Community Edition)..."
 
             sleep 2s
             (curl -fsSL https://get.docker.com/ | sh) >> ~/docker-script-install.log 2>&1
 
-            echo "    3. Starting the Docker Service..."
+            echo "    4. Starting the Docker Service..."
 
             sleep 2s
 
 
             sudo systemctl start docker >> ~/docker-script-install.log 2>&1
 
-            echo "    4. Enabling the Docker Service..."
+            echo "    5. Enabling the Docker Service..."
             sleep 2s
 
             sudo systemctl enable docker >> ~/docker-script-install.log 2>&1
+
+            echo "      - docker version is now:"
+            DOCKERV=$(docker -v)
+            echo "        "${DOCKERV}
+            sleep 3s
         fi
     fi
 
@@ -180,14 +168,18 @@ startInstall()
             sleep 2s
         fi
 
-        echo "    2. Installing Docker-CE (Community Edition)..."
+        echo "    2. Installing Prerequisit Packages..."
+        sudo pacman -Sy git curl wget >> ~/docker-script-install.log 2>&1
+
+        echo "    3. Installing Docker-CE (Community Edition)..."
             sleep 2s
 
             curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
 
             echo "    - docker-ce version is now:"
-            docker -v
-            sleep 5s
+            DOCKERV=$(docker -v)
+            echo "        "${DOCKERV}
+            sleep 3s
     fi
 
     if [[ "$DOCK" == [yY] ]]; then
@@ -219,12 +211,12 @@ startInstall()
         ###     Install Debian / Ubuntu    ###
         ######################################        
         
-        if [[ "$OS" != "1" ]]; then
+        if [[ "$OS" == "2" || "$OS" == "3" || "$OS" == "4" ]]; then
             sudo apt install docker-compose -y >> ~/docker-script-install.log 2>&1
         fi
 
         ######################################
-        ###        Install CentOS 7        ###
+        ###        Install CentOS 7 or 8   ###
         ######################################
 
         if [[ "$OS" == "1" ]]; then
@@ -233,10 +225,20 @@ startInstall()
             sudo chmod +x /usr/local/bin/docker-compose >> ~/docker-script-install.log 2>&1
         fi
 
+        ######################################
+        ###        Install Arch Linux      ###
+        ######################################
+
+        if [[ "$OS" == "5" ]]; then
+            sudo pacman -Sy >> ~/docker-script-install.log 2>&1
+            sudo pacman -Sy docker-compose > ~/docker-script-install.log 2>&1
+        fi
+
         echo ""
 
-        echo "- Docker Compose Version is now: " 
-        docker-compose --version
+        echo "      - Docker Compose Version is now: " 
+        DOCKCOMPV=$(docker-compose --version)
+        echo "        "${DOCKCOMPV}
         echo ""
         echo ""
         sleep 3s
@@ -374,39 +376,6 @@ startInstall()
         echo ""
         echo "    Navigate to your server hostname / IP address on port 4533 to setup"
         echo "    your new Navidrome admin account."
-        echo ""      
-        sleep 3s
-        cd
-    fi
-
-    if [[ "$SPDTST" == [yY] ]]; then
-        echo "###########################################"
-        echo "###         Installing Speedtest        ###"
-        echo "###########################################"
-        echo ""
-        echo "    1. Preparing to install Speedtest"
-
-        mkdir -p docker/docker-speedtest-grafana
-        cd docker/docker-speedtest-grafana
-
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker-compose_speedtest_grafana.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-
-        echo "    2. Running the docker-compose.yml to install and start Speedtest"
-        echo ""
-        echo ""
-
-        if [[ "$OS" == "1" ]]; then
-          docker-compose up -d
-        fi
-
-        if [[ "$OS" != "1" ]]; then
-          sudo docker-compose up -d
-        fi
-
-        echo ""
-        echo ""
-        echo "    Navigate to your server hostname / IP address on port 3030 to view"
-        echo "    Speedtest data as it collects over time."
         echo ""      
         sleep 3s
         cd
