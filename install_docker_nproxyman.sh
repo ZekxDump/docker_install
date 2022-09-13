@@ -402,10 +402,10 @@ echo "------------------------------------------------"
 echo ""
 PS3="Please select the number for your OS / distro: "
 select _ in \
-    "CentOS 7 and 8" \
-    "Debian 10/11 (Buster / Bullseye)" \
-    "Ubuntu 18.04 (Bionic)" \
-    "Ubuntu 20.04 / 21.04 / 22.04 (Focal / Hirsute / Jammy)" \
+    "CentOS 7 / 8 / Fedora" \
+    "Debian 10 / 11" \
+    "Ubuntu 18.04" \
+    "Ubuntu 20.04 / 21.04 / 22.04" \
     "Arch Linux" \
     "End this Installer"
 do
