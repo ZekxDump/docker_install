@@ -4,7 +4,7 @@ This script will help install any, or all, of Docker-CE, Docker-Compose, NGinX P
 
 ## Using this script
 
-1. Clone the repo ( `git clone https://github.com/ZekXtreme/docker_setup.git` ), or copy / paste the code from the `setup.sh` file into a file on your server. 
+1. Clone the repo ( `git clone https://github.com/ZekXtreme/docker_install.git` ), or copy / paste the code from the `setup.sh` file into a file on your server. 
 2. Change the permissions of the .sh file to make it executable with.
 
 `chmod +x <your-new-file>.sh`
@@ -36,6 +36,6 @@ Answering "n" to any of them will cause them to be skipped.
 * You must have Docker-CE (or some version of Docker) installed in order to run any of the other three packages.
 * You must have Docker-Compose installed in order to run NGinX Proxy Manager.
 
-Before prompting to install Docker or Docker-Compose, I do try to see if you already have them installed, and I skip the prompt if you do (or I try to anyway).
+### Credits
 
-
+[Original Repo](https://gitlab.com/bmcgonag/docker_installs) Full Credits to original author

@@ -280,7 +280,7 @@ startInstall()
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
-        curl https://raw.githubusercontent.com/ZekXtreme/docker_setup/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/ZekXtreme/docker_install/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -358,7 +358,7 @@ startInstall()
         mkdir -p docker/navidrome
         cd docker/navidrome
 
-        curl https://raw.githubusercontent.com/ZekXtreme/docker_setup/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/ZekXtreme/docker_install/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start Navidrome"
         echo ""
